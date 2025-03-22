@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.titlebar {
+  @apply flex fixed select-none;
+  height: 40px;
+  background: #1c1d1d;
+  top: 0;
+  left: 0;
+  right: 0;
+
+}
+.titlebar-button {
+  @apply justify-center items-center select-none text-gray-400;
+  width: 40px;
+  height: 40px;
+  line-height: 35px;
+}
+.titlebar-button:hover {
+  @apply scale-90 brightness-150;
+}
+

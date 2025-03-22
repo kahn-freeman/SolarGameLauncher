@@ -1,0 +1,30 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "global-shortcut",
+  "description": "Capability for the main window",
+  "windows": ["SolarLauncher"],
+  "permissions": [
+
+  ],
+"security": {
+    "capabilities": [
+      {
+        "identifier": "global-shortcut-access",
+        "description": "Global shortcut permissions",
+        "permissions": [
+          {
+            "type": "plugin",
+            "plugin": "global-shortcut",
+            "actions": ["register", "unregister", "list"]
+          },
+          {
+            "type": "fs",
+            "scope": {
+              "allow": ["$APPDATA/shortcuts"]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
