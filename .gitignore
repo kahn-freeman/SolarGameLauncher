@@ -18,4 +18,4 @@ target/
 node_modules/
 *.lock
 *-lock.*
-*-error.log
+*.log
