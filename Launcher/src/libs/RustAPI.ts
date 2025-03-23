@@ -1,9 +1,8 @@
-import { event } from "@tauri-apps/api";
+import { invoke } from '@tauri-apps/api/core';
+export class RustAPI{
 
-export class CDelegate{
-
-    public static async ReadSpeed(exename:string):Promise<any>{
-        return await event.emit("read_shared_mem",{memname:exename});
+    public static async GetEnv(keyname:string):Promise<string>{
+        return await invoke("get_env",{keyname:keyname});
     }
     /*
     public static async WriteSpeed(exename:string,speed:number){

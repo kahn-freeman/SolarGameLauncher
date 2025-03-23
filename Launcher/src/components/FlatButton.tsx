@@ -37,7 +37,7 @@ const FlatButton = forwardRef(({
                 `}
                 onClick={() => onClick?.(id)}
                 >
-            <span className={`${font_bold==true?"font-bold":""} ${text_color} ${font_size==""?"text-lg":font_size} flex items-center justify-center group-hover:brightness-150 group-active:brightness-200  w-[100%] h-[100%]`}>
+            <span className={` select-none ${font_bold==true?"font-bold":""} ${text_color} ${font_size==""?"text-lg":font_size} flex items-center justify-center group-hover:brightness-150 group-active:brightness-200  w-[100%] h-[100%]`}>
             {text}
             </span>
             </Box>

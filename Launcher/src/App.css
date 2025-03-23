@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
 .titlebar {
-  @apply flex fixed select-none;
+  @apply flex fixed select-none bg-black;
   height: 40px;
-  background: #1c1d1d;
   top: 0;
   left: 0;
   right: 0;
