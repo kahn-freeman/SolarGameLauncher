@@ -13,30 +13,39 @@ import { Fragment } from "react/jsx-runtime";
 interface ComponentProps {
     tooltip?:string;
     font_size?: string;
-    font_bold?: boolean;
+
     width: string;
     height?: string;
-    id?: string;
+
     onItemSelect?: (index: number,key:string) => void;
+    selected?:number;
     options: string[];
 }
-const ComboButton = forwardRef(({
-    tooltip,
-    font_size="14px",
-    font_bold,
-    width,
-    height="32px",
-    id,
-    onItemSelect,
-    options
-}: ComponentProps, _) => {
+
+type RefType = HTMLButtonElement;
+
+const ComboButton = React.memo(
+  forwardRef<RefType, ComponentProps>(
+    (
+      {
+        selected=0,
+        tooltip,
+        font_size = "14px",
+
+        width,
+        height = "32px",
+
+        onItemSelect,
+        options,
+      },
+      _
+    ) => {
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLDivElement>(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = React.useState(selected);
 
-
-    const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number,key:string) => {
+    const handleMenuItemClick = (_event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number,key:string) => {
         setSelectedIndex(index);
         setOpen(false);
         onItemSelect?.(index,key);
@@ -57,12 +66,14 @@ const ComboButton = forwardRef(({
         setOpen(false);
     };
 
-
+    React.useEffect(()=>{
+        setSelectedIndex(selected);
+    },[selected])
     return (
         <Fragment >
             <ButtonGroup variant="contained" ref={anchorRef}  >
             
-                    <Button sx={{ width: width,height:height, cursor: 'not-allowed', pointerEvents: 'none', }} size="small" >{options[selectedIndex]}</Button>
+                    <Button sx={{ width: width,height:height, cursor: 'not-allowed', pointerEvents: 'none',opacity:0.85 }} size="small" >{options[selectedIndex]}</Button>
                    <Tooltip title={tooltip} arrow placement="right" >
                         <Button sx={{height:height}} size="small" aria-controls={open ? 'split-button-menu' : undefined} aria-expanded={open ? 'true' : undefined} aria-haspopup="menu" onClick={handleToggle}>
                             <ArrowDropDownIcon />
@@ -111,5 +122,5 @@ const ComboButton = forwardRef(({
             </Popper>
         </Fragment >
     );
-});
+}));
 export default ComboButton;

@@ -5,32 +5,32 @@ import '@fontsource/roboto/700.css';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { register, unregisterAll } from '@tauri-apps/plugin-global-shortcut';
 import { openUrl } from '@tauri-apps/plugin-opener';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import "./App.css";
 import FlatButton from './components/FlatButton';
 import ShapeButton from './components/ShapeButton';
 import "./configure.css";
+import MainFrame from './frames/MainFrame';
 import SettingsFrame from './frames/SettingsFrame';
 import { RustAPI } from './libs/RustAPI';
 function App() {
-  const { t, i18n } = useTranslation();
-
-  let bankeys = ['CommandOrControl+Shift+J', 'CommandOrControl+Shift+I', 'CommandOrControl+U', 'CommandOrControl+J', 'CommandOrControl+P', 'CommandOrControl+F', 'CommandOrControl+G'];
-  let bankeys_js = [114, 116, 118];//123=f12,114=f3,116=f5,118=f7
+  const { t } = useTranslation();
+  const [is_show_settings_frame,set_show_settings_frame] = useState(false);
+  //let bankeys = ['CommandOrControl+Shift+J', 'CommandOrControl+Shift+I', 'CommandOrControl+U', 'CommandOrControl+J', 'CommandOrControl+P', 'CommandOrControl+F', 'CommandOrControl+G'];
+  //let bankeys_js = [114, 116, 118];//123=f12,114=f3,116=f5,118=f7
 
   //import i18n from './i18n/i18n';
   // when using `"withGlobalTauri": true`, you may use
   //const { getCurrentWindow } = window.__TAURI__.window;
 
-  const appWindow = getCurrentWindow();
 
-
+/*
   async function reghotkeys() {
     for (let i in bankeys) {
       try {
-        await register(bankeys[i], (_event) => { console.log(_event) });//console.log(`Shortcut ${shortcut} triggered`);		
+        await register(bankeys[i], (_event) => { console.log(_event) });//console.log(`Shortcut ${shortcut} triggered`);
       } catch {
 
       }
@@ -82,29 +82,49 @@ function App() {
       unreghotkeys();
     }
   });
-
-
-  appWindow.show();
   reghotkeys();
+*/
+
+const appWindow = getCurrentWindow();
+useEffect(() => {
+  const handleLoad = () => {
+    appWindow.show();
+  };
+
+  window.addEventListener('load', handleLoad);
+  
+  // 清理时移除监听
+  return () => {
+    window.removeEventListener('load', handleLoad);
+  };
+}, []);
+  const onSettingsBtn=()=>{
+    set_show_settings_frame(true);
+  }
+  const onSettingsFrameClose=()=>{
+    set_show_settings_frame(false);
+  }
+  
+ 
   return (
     <main className="container">
       <div data-tauri-drag-region className="titlebar">
-
+        
         <Grid container spacing={0} className="w-[100%]">
           <Grid size={1} >
             <FlatButton text="8:13 UTC" font_bold={false} font_size='text-[14px]' height='h-[100%]' width='w-[100%]' text_color='text-gray-400' />
           </Grid>
           <Grid size={1} >
             <FlatButton background_hover={"hover:bg-red-500"} text={t("forum")} font_bold={true} font_size='text-xg' height='h-[100%]' width='w-[100%]' text_color='text-gray-400'
-              onClick={async () => { await openUrl(await RustAPI.GetEnv("forum_url")) }} />
+              onClick={async () => { await openUrl(await RustAPI.GetConfigString("toolbar.forum_url")) }} />
           </Grid>
           <Grid size={1} >
             <FlatButton background_hover='hover:bg-red-500' text={t("news")} font_bold={true} font_size='text-xg' height='h-[100%]' width='w-[100%]' text_color='text-gray-400'
-              onClick={async () => { await openUrl(await RustAPI.GetEnv("news_url")) }} />
+              onClick={async () => { await openUrl(await RustAPI.GetConfigString("toolbar.news_url")) }} />
           </Grid>
           <Grid size={1}>
             <FlatButton background_hover='hover:bg-red-500' text={t("shop")} font_bold={true} font_size='text-xg' height='h-[100%]' width='w-[100%]' text_color='text-gray-400'
-              onClick={async () => { await openUrl(await RustAPI.GetEnv("shop_url")) }} />
+              onClick={async () => { await openUrl(await RustAPI.GetConfigString("toolbar.shop_url")) }} />
           </Grid>
           <Grid size={7}  >
             <Box data-tauri-drag-region className=" w-[100%] h-[100%]  select-none" />
@@ -147,13 +167,14 @@ function App() {
               <ShapeButton icon="/icons/button/halt.png" font_size='text-[12px]' text={t('barbtn.support')} width="36px" height="36px" />
             </Grid>
             <Grid size={2}>
-              <ShapeButton icon="/icons/button/cog.png" font_size='text-[12px]' text={t('barbtn.settings')} width="36px" height="36px" />
+              <ShapeButton icon="/icons/button/cog.png" font_size='text-[12px]' text={t('barbtn.settings')} width="36px" height="36px" onClick={()=>{onSettingsBtn()}} />
             </Grid>
           </Grid>
         </Grid>
 
         <Grid size={11} className="w-[100%] h-[100%]">
-          <SettingsFrame></SettingsFrame>
+          <MainFrame className="static  w-[100%] h-[100%]"></MainFrame>
+          <SettingsFrame show={is_show_settings_frame} onClose={()=>{onSettingsFrameClose()}}></SettingsFrame>
         </Grid>
       </Grid>
     </main>

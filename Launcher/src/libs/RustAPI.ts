@@ -1,39 +1,31 @@
 import { invoke } from '@tauri-apps/api/core';
 export class RustAPI{
 
-    public static async GetEnv(keyname:string):Promise<string>{
-        return await invoke("get_env",{keyname:keyname});
+    public static async GetConfigString(keyPath:string):Promise<string>{
+        return await invoke("get_cfg_str",{keyPath:keyPath});
     }
-    /*
-    public static async WriteSpeed(exename:string,speed:number){
-        await invoke("write_shared_mem",{memname:exename,speed:speed});
+    public static async GetConfigBool(keyPath:string):Promise<boolean>{
+        return await invoke("get_cfg_bool",{keyPath:keyPath});
     }
-    public static async OpenSharedMem(exename:string):Promise<boolean>{
-        return await invoke("open_shared_mem",{memname:exename});
+    public static async GetConfigInt(keyPath:string):Promise<number>{
+        return await invoke("get_cfg_int",{keyPath:keyPath});
     }
-    public static async IsSharedMem(exename:any):Promise<boolean>{
-        return await invoke("is_shared_mem",{memname:exename});
+    public static async GetConfigTable(keyPath:string):Promise<{ [key: string]: number }>{
+        return await invoke("get_cfg_table",{keyPath:keyPath});
     }
-    public static async CreateSharedMem(exename:string,memsize:number):Promise<boolean>{
-        return await invoke("create_shared_mem",{memname:exename,memsize:memsize});
+    public static async GetConfigArray(keyPath:string):Promise<[]>{
+        return await invoke("get_cfg_array",{keyPath:keyPath});
     }
-    public static async GetVersion():Promise<string>{
-        return await invoke("get_appname",{}) + " " + await invoke("get_version",{});
+    public static async SetConfigInt(keyPath:string,value:number):Promise<boolean>{
+        return await invoke("set_cfg_int",{keyPath:keyPath,value:value});
     }
-    public static async Inject(exename:string,dllpath:string){
-        return await invoke("inject",{processName:exename,dllpath:dllpath});
+    public static async SetConfigString(keyPath:string,value:string):Promise<boolean>{
+        return await invoke("set_cfg_str",{keyPath:keyPath,value:value});
     }
-    public static async InjectByPid(pid:number,dllpath:string){
-        return await invoke("inject_by_pid",{pid:pid,dllpath:dllpath});
+    public static async SetConfigBool(keyPath:string,value:boolean):Promise<boolean>{
+        return await invoke("set_cfg_bool",{keyPath:keyPath,value:value});
     }
-    public static async GetCurrentDir():Promise<string>{
-        return await invoke("get_current_path",{});
+    public static async SaveConfig():Promise<boolean>{
+        return await invoke("save_cfg",{});
     }
-    public static async MessageBox(title:String,info:String){
-        return await invoke("message_box",{title:title,info:info,msgtype:""});
-    }
-    public static async GetProcessList():Promise<any>{
-        let process_list =  await invoke("get_process_list",{});
-        return process_list["process"];
-    }*/
 };

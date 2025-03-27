@@ -1,0 +1,20 @@
+{
+    "toolbar":{
+        "forum_url":"https://www.google.com",
+        "news_url":"https://www.google.com",
+        "shop_url":"https://www.google.com"
+    },
+    "leftbar":{
+        "support_url":"https://www.google.com",
+        "account_url":"https://www.google.com"
+    },
+    "settings":{
+
+        "generate":{
+            "language":"1"
+        },
+        "graphic":{
+            
+        }
+    }
+}

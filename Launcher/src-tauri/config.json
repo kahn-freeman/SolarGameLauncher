@@ -1,0 +1,29 @@
+{
+  "": false,
+  "leftbar": {
+    "account_url": "https://www.google.com",
+    "support_url": "https://www.google.com"
+  },
+  "settings": {
+    "generate": {
+      "clean_temporary": true,
+      "language": 0
+    },
+    "graphic": {
+      "displaymode_sel": 1,
+      "introvideo_sel": 0,
+      "quality_sel": 1,
+      "resolution": [
+        "1280 x 720",
+        "1440 x 900",
+        "1920 x 1080"
+      ],
+      "resolution_sel": 0
+    }
+  },
+  "toolbar": {
+    "forum_url": "https://www.google.com",
+    "news_url": "https://www.google.com",
+    "shop_url": "https://www.google.com"
+  }
+}
